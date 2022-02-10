@@ -19,11 +19,11 @@ public class ArticleGrouper {
         allArticles[3] = new Article("Ганичев", 10);
 
 //        Вызываем волшебную функцию, получаем список для чтения
-        Article[] readingList = groupArticles(allArticles, availableTime);
+        Article[] readingList = Article.groupArticles(allArticles, availableTime);
 
 //        Распечаетываем список для чтения
-        for(int i = 0; i < readingList.length; i++){
-            printArtcile(readingList[i]);
+        for (Article article : readingList) {
+            article.printArticle();
         }
     }
 
@@ -31,11 +31,27 @@ public class ArticleGrouper {
 //    private void groupingArticlesFromArrayList(int availibleTime, ArrayList allArticles){
 //
 //    }
+}
 
-//    Группировка статей
+
+class Article{
+    String authorSurname;
+    int readingTime;
+
+    Article(String author, int readingTime){
+        this.authorSurname = author;
+        this.readingTime = readingTime;
+    }
+
+    //    Вывод списка статей в консоль
+    public void printArticle(){
+        System.out.println("Author: " + this.authorSurname + " " + this.readingTime + " мин");
+    }
+
+    //    Группировка статей
     public static Article[] groupArticles(Article[] allArticles, int availableTime){
         Article[] readingList = new Article[0];
-        int biggestArticleIndex = 0;
+        int biggestArticleIndex;
 
         while(true){
 //            Получаем индекс статьи с наибольшим временм прочтения
@@ -59,13 +75,8 @@ public class ArticleGrouper {
         return readingList;
     }
 
-    //    Вывод списка статей в консоль
-    private static void printArtcile(Article article){
-        System.out.println("Author: " + article.authorSurname + " " + article.readingTime + " мин");
-    }
-
 //    Находит статью с наибольшим временем прочтения
-    private static int biggestArticle(Article[] allArticles){
+    public static int biggestArticle(Article[] allArticles){
         Article biggestArticle = allArticles[0];
         int biggestArticleIndex = 0;
         for(int i = 1; i < allArticles.length; i++){
@@ -79,7 +90,7 @@ public class ArticleGrouper {
 
     // Выкидывает из изначального массива статей указанную
     // в extraArticleIndex и возрващает уменьшенный массив
-    private static Article[] removeExtra(Article[] allArticles, int extraArticleIndex){
+    public static Article[] removeExtra(Article[] allArticles, int extraArticleIndex){
         Article[] tmpArticles = new Article[allArticles.length - 1];
         int offset = 0;
         for (int i = 0; i < tmpArticles.length; i++) {
@@ -91,23 +102,13 @@ public class ArticleGrouper {
         return tmpArticles;
     }
 
-//    Формирует больший массив, добавляя туда статью
-    private static Article[] addToReadingList(Article[] readingList, Article article){
+    //    Формирует больший массив, добавляя туда статью
+    public static Article[] addToReadingList(Article[] readingList, Article article){
         Article[] tmpArticle = new Article[readingList.length + 1];
         for(int i = 0; i < readingList.length; i++){
             tmpArticle[i] = readingList[i];
         }
         tmpArticle[tmpArticle.length - 1] = article;
         return  tmpArticle;
-    }
-}
-
-class Article{
-    String authorSurname;
-    int readingTime;
-
-    Article(String author, int readingTime){
-        this.authorSurname = author;
-        this.readingTime = readingTime;
     }
 }
